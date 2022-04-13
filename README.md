@@ -14,3 +14,6 @@ notes:
 * comes with no warranty
 * does not include sample photos or any photo library
 * photos can be any of {*.jpg, *.jpeg, *.png}
+
+Licenses and dependencies:
+* olcPixelGameEngine: https://github.com/OneLoneCoder/olcPixelGameEngine
