@@ -17,3 +17,4 @@ notes:
 
 Licenses and dependencies:
 * olcPixelGameEngine: https://github.com/OneLoneCoder/olcPixelGameEngine
+* stb_image_write: https://github.com/nothings/stb
