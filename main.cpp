@@ -1,6 +1,9 @@
 ﻿#define OLC_PGE_APPLICATION
 #include "olcPixelGameEngine.h"
 
+#define STB_IMAGE_WRITE_IMPLEMENTATION
+#include "stb_image_write.h"
+
 #include <filesystem>
 #include <iostream>
 #include <string>
@@ -54,9 +57,18 @@ public:
 		return brightnessSum / (nFrameHeight * nFrameWidth);
 	}
 
+	void WriteResultToFile() {
+		olc::Sprite* pScreenPtr = GetDrawTarget();
+		try {
+			stbi_write_png("output.png", pScreenPtr->width, pScreenPtr->height, 4, pScreenPtr->GetData(), pScreenPtr->width * 4);
+		}
+		catch (...) {
+			std::cout << "ERROR WRITING OUTPUT, TRY SCREEN CAPTURING!" << std::endl;
+		}
+	}
 
 	bool OnUserCreate() override {
-		printf("Mosaic Maker v0.1a. G.Çetin.\n");
+		printf("Mosaic Maker v0.2a. G.Çetin.\n");
 
 		GenerateFileList();
 		
@@ -88,6 +100,7 @@ public:
 			SetDrawTarget(sprDummy);
 			DrawFrame(sprTemporary, 0, 0, scale);
 			sprPhotos.push_back(sprDummy);
+			delete sprTemporary;
 		}
 		std::cout << "Finished loading all files. Let's Go!" << std::endl;
 
@@ -131,9 +144,11 @@ public:
 	}
 
 	bool OnUserUpdate(float fElapsedTime) override {
+		SetDrawTarget(nullptr);
 		Clear(olc::BLACK);
 		SetPixelMode(olc::Pixel::NORMAL); // Draw all pixels
-		
+		if (GetKey(olc::Key::ESCAPE).bReleased) return false;
+
 		for (int m = 0; m < XGridCount; m++) {
 			for (int n = 0; n < YGridCount; n++) {
 				DrawSprite(m * XGridSize, n * YGridSize, sprPhotos[brightnessLookup[int(TargetBrightness[m][n])]]);
@@ -142,7 +157,12 @@ public:
 		
 		if (GetKey(olc::Key::TAB).bReleased) bShowTarget = !bShowTarget;
 		if (bShowTarget) DrawSprite(0, 0, sprTarget);
-
+		
+		if (!bWrittenToFile) {
+			WriteResultToFile();
+			bWrittenToFile = true;
+		}
+		
 		SetDrawTarget(nullptr);
 
 		return true;
@@ -153,7 +173,7 @@ int main()
 {
 	MosaicMaker mosaicmaker;
 
-	if (mosaicmaker.Construct(1800, 800, 1, 1)) {
+	if (mosaicmaker.Construct(1800, 1000, 1, 1)) {
 		mosaicmaker.Start();
 	}
 	return 0;

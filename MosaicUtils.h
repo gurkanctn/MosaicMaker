@@ -24,6 +24,7 @@ float TargetBrightness[100][100];		//100x100 should be enough for everyone (kidd
 float fTargetPos = 900.0f;				//this should be calculated from the Target image
 
 bool bShowTarget = false;
+bool bWrittenToFile = false;
 
 void GenerateFileList() {
 	std::filesystem::path path = std::filesystem::current_path() / "photos";
