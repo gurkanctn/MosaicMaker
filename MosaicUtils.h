@@ -1,4 +1,5 @@
 #pragma once
+
 std::string getFileNameExtension(std::string s) {
 	size_t i = s.rfind('.', s.length());
 	std::string ext = "";
@@ -8,26 +9,28 @@ std::string getFileNameExtension(std::string s) {
 	return ext;
 }
 
+std::string targetFileName;
+
 int nPhotos = 0;
 int nPhotoCounter = 0;
 int nProblems = 0;
 std::vector<std::string> sFileNames;
 
-int XGridSize = 20;
-int YGridSize = 16;
-int XGridCount = 5;
-int YGridCount = 5;
+int XGridSize = 40;
+int YGridSize = 32;
+int XGridCount = 5;		//will be recalculated depending on Target photo size
+int YGridCount = 5;		//will be recalculated depending on Target photo size
 
 int brightnessLookup[255];
 
-float TargetBrightness[100][100];		//100x100 should be enough for everyone (kidding)
-float fTargetPos = 900.0f;				//this should be calculated from the Target image
+float TargetBrightness[400][400];		//400x400 should be enough for everyone (kidding)
 
 bool bShowTarget = false;
 bool bWrittenToFile = false;
 
 void GenerateFileList() {
 	std::filesystem::path path = std::filesystem::current_path() / "photos";
+	//check if folder "photos" exists
 	for (const auto& entry : std::filesystem::directory_iterator(path)) {
 		//check if extension is PNG or JPG and whether filename is valid
 		try {

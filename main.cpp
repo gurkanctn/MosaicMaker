@@ -13,7 +13,7 @@
 class MosaicMaker : public olc::PixelGameEngine
 {
 public:
-	MosaicMaker() {		sAppName = "Mosaic Maker v0.1a - Gurkan Cetin, 2022";	}
+	MosaicMaker() {		sAppName = "Mosaic Maker v0.2a - Gurkan Cetin, 2022";	}
 
 public:
 	
@@ -29,6 +29,7 @@ public:
 
 	olc::Sprite* sprDummy;
 	olc::Sprite* sprTemporary;
+	olc::Sprite* sprTargetOriginal;
 	olc::Sprite* sprTarget;
 	std::vector<olc::Sprite*> sprPhotos;
 
@@ -68,19 +69,15 @@ public:
 	}
 
 	bool OnUserCreate() override {
-		printf("Mosaic Maker v0.2a. G.Çetin.\n");
-
-		GenerateFileList();
-		
-		//SET and LOAD TARGET PHOTO
-		std::string targetFileName;
-		std::cout << "ENTER TARGET PHOTO FILENAME. Make sure it is under 'photos' folder." << std::endl;
-		std::cin >> targetFileName;
-		targetFileName = "photos/" + targetFileName;
-		std::cout << targetFileName << std::endl;
 
 		try {
-				sprTarget = new olc::Sprite(targetFileName);
+				sprTargetOriginal = new olc::Sprite(targetFileName);
+				sprTarget = new olc::Sprite(sprTargetOriginal->width *2, sprTargetOriginal->height *2);
+				//olc::GFX2D::Transform2D t;
+				//t.Scale(2, 2);
+				SetDrawTarget(sprTarget);
+				DrawSprite(0, 0, sprTargetOriginal, 2, 0);
+				delete sprTargetOriginal;
 		}
 		catch (...) {
 			std::cout << "Couldn't open your file, Correct it or die!" << std::endl;
@@ -89,7 +86,7 @@ public:
 
 		XGridCount = sprTarget->width / XGridSize;
 		YGridCount = sprTarget->height / YGridSize;
-
+		
 		int nFilesToProcess = sFileNames.size();
 		std::cout << "Starting to load all photos, this may take a while. Please standby..." << std::endl;
 
@@ -144,26 +141,25 @@ public:
 	}
 
 	bool OnUserUpdate(float fElapsedTime) override {
-		SetDrawTarget(nullptr);
+		SetDrawTarget(sprTarget);
 		Clear(olc::BLACK);
 		SetPixelMode(olc::Pixel::NORMAL); // Draw all pixels
 		if (GetKey(olc::Key::ESCAPE).bReleased) return false;
 
-		for (int m = 0; m < XGridCount; m++) {
-			for (int n = 0; n < YGridCount; n++) {
-				DrawSprite(m * XGridSize, n * YGridSize, sprPhotos[brightnessLookup[int(TargetBrightness[m][n])]]);
-			}
-		}
-		
-		if (GetKey(olc::Key::TAB).bReleased) bShowTarget = !bShowTarget;
-		if (bShowTarget) DrawSprite(0, 0, sprTarget);
-		
 		if (!bWrittenToFile) {
+			for (int m = 0; m < XGridCount; m++) {
+				for (int n = 0; n < YGridCount; n++) {
+					DrawSprite(m * XGridSize, n * YGridSize, sprPhotos[brightnessLookup[int(TargetBrightness[m][n])]]);
+				}
+			}
 			WriteResultToFile();
 			bWrittenToFile = true;
 		}
-		
+
+		if (GetKey(olc::Key::TAB).bReleased) bShowTarget = !bShowTarget;
+
 		SetDrawTarget(nullptr);
+		DrawSprite(0, 0, sprTarget);
 
 		return true;
 	}
@@ -171,6 +167,23 @@ public:
 
 int main()
 {
+	printf("Mosaic Maker v0.2a. G.Çetin.\n");
+	printf("Will generate a Mosaic photo from 'Photos' folder.\n");
+	try {
+		GenerateFileList();
+	}
+	catch (...) {
+		std::cout << "\x1B[41mERROR: Could not load 'Photos', make sure your photos are in 'Photos' folder!\n";
+		return 1;
+	}
+
+	//SET and LOAD TARGET PHOTO
+
+	std::cout << "ENTER TARGET PHOTO FILENAME. Make sure it is under 'photos' folder." << std::endl;
+	std::cin >> targetFileName;
+	targetFileName = "photos/" + targetFileName;
+	std::cout << targetFileName << std::endl;
+
 	MosaicMaker mosaicmaker;
 
 	if (mosaicmaker.Construct(1800, 1000, 1, 1)) {
