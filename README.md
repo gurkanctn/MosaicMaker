@@ -1,6 +1,13 @@
 # MosaicMaker
 Photo Mosaic Maker
 
+Example:
+![image](https://user-images.githubusercontent.com/8074474/165599969-79b18be9-ebbb-408c-9c06-fbf33d6db463.png)
+
+
+And, here's a closer look (zoom in to analyze the tiles)
+![output](https://user-images.githubusercontent.com/8074474/165600047-2c24fb45-ddb0-46f0-8021-5ebc53a1f9f8.png)
+
 Uses olcPixelGameEngine to generate and display a photo mosaic.
 
 Usage:
@@ -19,11 +26,4 @@ Licenses and dependencies:
 * olcPixelGameEngine: https://github.com/OneLoneCoder/olcPixelGameEngine
 * stb_image_write: https://github.com/nothings/stb
 
-Examples:
-![image](https://user-images.githubusercontent.com/8074474/163599741-c6dac428-d669-44a9-a6f8-085e04659040.png)
-
-![image](https://user-images.githubusercontent.com/8074474/163602094-d7d69cc3-7919-4ae4-93a9-7935786b4d1b.png)
-
-here's a closer look :)
-
-![image](https://user-images.githubusercontent.com/8074474/163602222-3682ceff-51c8-4bd6-8152-19e8da35bbb6.png)
+:)
