@@ -17,9 +17,9 @@ Usage:
 4. If you like the result, capture it using Screen Capture (it does not write to a file, yet).
 
 notes:
-* C++/17 standard (to search for filenames)
-* comes with no warranty
-* does not include sample photos or any photo library
+* uses C++/17 standard (to search for filenames)
+* comes with no Warranty
+* You are supposed to utilize your own photos as this code repo does not contain photos (except for the Readme)
 * photos can be any of {*.jpg, *.jpeg, *.png}
 
 Licenses and dependencies:
