@@ -17,7 +17,6 @@ Uses olcPixelGameEngine to generate and display a photo mosaic.
 1. create a "photos" folder and copy several photos to be used in generating the Mosaic
 2. run the program (it asks for the Target file name in the Terminal, so don't forget to switch to the terminal when you see the big Canvas)
 3. hang on, while the computer analyses your input photos to generate a Mosaic of your target photo.
-4. If you like the result, capture it using Screen Capture (it does not write to a file, yet).
 
 # Notes
 * uses C++/17 standard (to search for filenames)
