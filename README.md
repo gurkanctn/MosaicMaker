@@ -31,7 +31,7 @@ Uses olcPixelGameEngine to generate and display a photo mosaic.
 
 # For Developers
 * Mosaic Maker can be compiled and run on both Linux and Windows.
-* Feel free to add features (User Inteface, sharing the output, embedding a watermark, etc)
+* Feel free to add features (User Interface, sharing the output, embedding a watermark, etc)
 
 
 Enjoy! :)
